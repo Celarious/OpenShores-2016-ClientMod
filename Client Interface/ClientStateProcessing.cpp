@@ -6,7 +6,7 @@
 #include "ClientStateProcessing.h"
 #include "AuFunctions.h"
 
-#include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QGridLayout>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QGroupBox>
@@ -48,9 +48,6 @@ void ProcessState(int state, void* context, void* aux)
     case 5: // Scrolling text state, called early in UI setup
         stateLog(state);
         {
-            if (!context)
-                return;
-
             QList<QString>* textList =
                 reinterpret_cast<QList<QString>*>(context); // RSI register passed through RDX (win x64 convention)
             
@@ -59,14 +56,29 @@ void ProcessState(int state, void* context, void* aux)
             textList->append(QString::fromLatin1("*OpenShores")); // The * at the start of the string is a marker that the game checks for, and if present, removes it and centers + boldens the line
             textList->append(QString::fromLatin1("Welcome to OpenShores"));
             textList->append(QString::fromLatin1("V0.1.0 (2026)"));
+
+
+            QGridLayout* layout = static_cast<QGridLayout*>(aux); // Timing is different than the 2018 client so the IP input field happens here
+            QLineEdit* username = qobject_cast<QLineEdit*>(layout->itemAtPosition(2, 1)->widget());
+            QVBoxLayout* fields = new QVBoxLayout();
+            fields->setContentsMargins(0, 0, 0, 0);
+            fields->setSpacing(4);
+
+            g_ipEdit = new QLineEdit();
+            g_ipEdit->setToolTip(QStringLiteral("<html><b>IP address</b><br>Enter OpenShores IP</html>"));
+            g_ipEdit->setPlaceholderText(QStringLiteral("Enter IP address"));
+
+            fields->addWidget(g_ipEdit);
+            fields->addWidget(username);
+            layout->removeWidget(username);
+            layout->addLayout(fields, 2, 1, 1, 8);
         }
         break;
 
     case 6: // Login UI setup
         stateLog(state);
         {
-            QVBoxLayout* layout = static_cast<QVBoxLayout*>(context);
-            auto pAuGlobal = reinterpret_cast<uintptr_t*>(
+            /*auto pAuGlobal = reinterpret_cast<uintptr_t*>(
                 reinterpret_cast<uintptr_t>(hGame) + 0x8243F0 // RVA of AuGlobal
                 );
             auto gpAuGlobal = *pAuGlobal;
@@ -93,7 +105,7 @@ void ProcessState(int state, void* context, void* aux)
                         Qt::QueuedConnection
                     );
                 }
-            }
+            }*/
         }
         break;
 
