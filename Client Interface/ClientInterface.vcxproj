@@ -165,6 +165,7 @@
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PreprocessToFile>false</PreprocessToFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -177,7 +178,7 @@
       <EnableSegmentHeap>true</EnableSegmentHeap>
     </Manifest>
     <PostBuildEvent>
-      <Command>copy /Y "$(TargetPath)" "C:\Users\Celarious\Desktop\Shores of Hazeron\DLL migration debugging\ClientInterface.dll"</Command>
+      <Command>copy /Y "$(TargetPath)" "C:\Users\Celarious\Desktop\Shores of Hazeron\Old clients\2016 SoH Client\ClientInterface.dll"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

@@ -12,7 +12,7 @@ namespace Au {
 
     void Initialize() // Ensures that the program has loaded before resolving addresses
     {
-        ReadEntry =
+        /*ReadEntry =
             *reinterpret_cast<ReadEntryFn*>(
                 reinterpret_cast<uintptr_t>(hGame) + 0x824320
             );
@@ -25,6 +25,6 @@ namespace Au {
         Log =
             *reinterpret_cast<Log_t*>(
                 reinterpret_cast<uintptr_t>(hGame) + 0x8240A0
-            );
+            );*/
     }
 }
