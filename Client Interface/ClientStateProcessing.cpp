@@ -18,7 +18,7 @@
 static QLineEdit* g_ipEdit = nullptr; // Our inserted IP input field
 static bool g_state8Fired = false; // Prevents state 8 from firing repeatedly during loop
 static uintptr_t g_auGlobal = 0; // Storage for AuGlobal to avoid repeat lookups
-static void* g_settings = nullptr; // AuGlobal + 0x238
+static void* g_settings = nullptr; // AuGlobal + 
 
 void ProcessState(int state, void* context, void* aux)
 {
@@ -58,54 +58,47 @@ void ProcessState(int state, void* context, void* aux)
             textList->append(QString::fromLatin1("V0.1.0 (2026)"));
 
 
+            auto pAuGlobal = reinterpret_cast<uintptr_t*>(
+                reinterpret_cast<uintptr_t>(hGame) + 0x447B48 // RVA of AuGlobal
+            );
+            auto gpAuGlobal = *pAuGlobal;
+            g_auGlobal = *reinterpret_cast<uintptr_t*>(gpAuGlobal);
+            g_settings = reinterpret_cast<void*>(g_auGlobal + 0x218); // Stores the existing AuSettings variable, since it needs to be provided when calling any AuSettings function
+            QString key("/Account/Host"); // Sets the key to check
+            QString host; // This is used as the return variable
+            Au::ReadEntry(g_settings, host, key, &host); // Actually reads the key's value
+
             QGridLayout* layout = static_cast<QGridLayout*>(aux); // Timing is different than the 2018 client so the IP input field happens here
-            QLineEdit* username = qobject_cast<QLineEdit*>(layout->itemAtPosition(2, 1)->widget());
+            QLineEdit* username = qobject_cast<QLineEdit*>(layout->itemAtPosition(2, 1)->widget()); // Username field is stored at row 2 of the QGridLayout
             QVBoxLayout* fields = new QVBoxLayout();
             fields->setContentsMargins(0, 0, 0, 0);
             fields->setSpacing(4);
 
-            g_ipEdit = new QLineEdit();
+            g_ipEdit = new QLineEdit(host);
             g_ipEdit->setToolTip(QStringLiteral("<html><b>IP address</b><br>Enter OpenShores IP</html>"));
             g_ipEdit->setPlaceholderText(QStringLiteral("Enter IP address"));
 
             fields->addWidget(g_ipEdit);
             fields->addWidget(username);
             layout->removeWidget(username);
-            layout->addLayout(fields, 2, 1, 1, 8);
+            layout->addLayout(fields, 2, 1, 1, 8); // The login box is positioned differently in this client so we need to do this weird nesting shenanigans
+
+            QPushButton* loginButton = layout->parentWidget()->findChild<QPushButton*>();
+            if (loginButton && CheckLaunchArguments())
+            {
+                QMetaObject::invokeMethod( // Automatically logs in if the launcher passes -nologin by simulating a click
+                    loginButton,
+                    "click",
+                    Qt::QueuedConnection
+                );
+            }
         }
         break;
 
     case 6: // Login UI setup
         stateLog(state);
         {
-            /*auto pAuGlobal = reinterpret_cast<uintptr_t*>(
-                reinterpret_cast<uintptr_t>(hGame) + 0x8243F0 // RVA of AuGlobal
-                );
-            auto gpAuGlobal = *pAuGlobal;
-            g_auGlobal = *reinterpret_cast<uintptr_t*>(gpAuGlobal);
-            g_settings = reinterpret_cast<void*>(g_auGlobal + 0x238); // Stores the existing AuSettings variable, since it needs to be provided when calling any AuSettings function
-            QString key("/Account/Host"); // Sets the key to check
-            QString host; // This is used as the return variable
-            Au::ReadEntry(g_settings, host, key, &host); // Actually reads the key's value
-            g_ipEdit = new QLineEdit(host); // Prefills the input field if the Host key exists
-            g_ipEdit->setToolTip(QStringLiteral("<html><b>IP address</b><br>Enter OpenShores IP</html>"));
-            g_ipEdit->setPlaceholderText(QStringLiteral("Enter IP address"));
-            layout->addWidget(g_ipEdit); // Adds the widget to the UI
-            if (CheckLaunchArguments())
-            {
-                QPushButton* loginButton =
-                    *reinterpret_cast<QPushButton**>(
-                        static_cast<char*>(aux) + 0x50
-                        );
-                if (loginButton)
-                {
-                    QMetaObject::invokeMethod( // Automatically logs in if the launcher passes -nologin by simulating a click
-                        loginButton,
-                        "click",
-                        Qt::QueuedConnection
-                    );
-                }
-            }*/
+
         }
         break;
 

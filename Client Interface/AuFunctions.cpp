@@ -12,12 +12,12 @@ namespace Au {
 
     void Initialize() // Ensures that the program has loaded before resolving addresses
     {
-        /*ReadEntry =
+        ReadEntry =
             *reinterpret_cast<ReadEntryFn*>(
-                reinterpret_cast<uintptr_t>(hGame) + 0x824320
+                reinterpret_cast<uintptr_t>(hGame) + 0x447A60
             );
 
-        WriteEntry =
+        /*WriteEntry =
             *reinterpret_cast<WriteEntryFn*>(
                 reinterpret_cast<uintptr_t>(hGame) + 0x824318
             );
