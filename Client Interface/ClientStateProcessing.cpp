@@ -28,7 +28,7 @@ void ProcessState(int state, void* context, void* aux)
         break;
 
     case 1: // Early startup, right after entry point
-        Au::Initialize(); // Prepares the Au functions for our use, needed to avoid static initializaton timing issues
+        Au::Initialize(); // Prepares the Au functions for our use, needed to avoid static initialization timing issues
         InstallQtMessageHandler();
         stateLog(state);
         break;
@@ -52,10 +52,8 @@ void ProcessState(int state, void* context, void* aux)
                 return;
 
             QList<QString>* textList =
-                reinterpret_cast<QList<QString>*>(
-                    static_cast<char*>(context) + 0x30 // RSI register passed through RDX (win x64 convention)
-                    );
-
+                reinterpret_cast<QList<QString>*>(context); // RSI register passed through RDX (win x64 convention)
+            
             textList->clear(); // Clears the original scrolling text list
 
             textList->append(QString::fromLatin1("*OpenShores")); // The * at the start of the string is a marker that the game checks for, and if present, removes it and centers + boldens the line
