@@ -14,7 +14,11 @@
 
 #include <windows.h>
 #include <QString>
+#include <uxtheme.h>
+#include <QtWidgets/QStyle>
+#include <QtWidgets/QStyleOption>
+#include <QtGui/QPainter>
 
 extern HMODULE hGame;
-extern "C" __declspec(dllexport)
-const QString& SetAuLogFilename();
+extern "C" __declspec(dllexport) const QString& SetAuLogFilename();
+extern "C" __declspec(dllexport) void DrawHoverBorder(QPainter* painter, int x1, int y1, int x2, int y2);

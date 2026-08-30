@@ -18,7 +18,7 @@
 static QLineEdit* g_ipEdit = nullptr; // Our inserted IP input field
 static bool g_state8Fired = false; // Prevents state 8 from firing repeatedly during loop
 static uintptr_t g_auGlobal = 0; // Storage for AuGlobal to avoid repeat lookups
-static void* g_settings = nullptr; // AuGlobal + 
+static void* g_settings = nullptr; // AuGlobal + 0x218
 
 void ProcessState(int state, void* context, void* aux)
 {
@@ -45,7 +45,7 @@ void ProcessState(int state, void* context, void* aux)
         stateLog(state);
         break;
 
-    case 5: // Scrolling text state, called early in UI setup
+    case 5: // Scrolling text and login UI setup state
         stateLog(state);
         {
             QList<QString>* textList =
@@ -95,7 +95,7 @@ void ProcessState(int state, void* context, void* aux)
         }
         break;
 
-    case 6: // Login UI setup
+    case 6: // 
         stateLog(state);
         {
 
