@@ -103,7 +103,7 @@ void ProcessState(int state, void* context, void* aux)
                 QWidget* mainWindow = QApplication::activeWindow();
 
                 if (mainWindow) {
-                    mainWindow->setWindowTitle("OpenShores");
+                    mainWindow->setWindowTitle("OpenShores Classic");
                     mainWindow->setWindowIcon(QIcon("assets/OS_Icon.png"));
                 }
                 g_state6Fired = true;
