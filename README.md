@@ -1,5 +1,5 @@
 # What is this?
-This repo is specifically for the 2016 (13m14, July 22 2016) SoH client. It is currently a WIP and **cannot currently connect to an OpenShores server**. 
+This repo is specifically for the 2016 (13m14, July 22 2016) SoH client. It is currently a WIP and **cannot connect to an OpenShores server**. 
 
 # Why?
 I found a copy of it on a Windows 7 HDD I recently recovered, and decided to try poking around with it too. This client was from before the new designer was added to the game in any capacity. Thus, the old designer is more stable. Other features such as the TL system, old city system, and inventory systems are also included.
