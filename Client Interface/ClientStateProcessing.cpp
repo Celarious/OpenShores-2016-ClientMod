@@ -54,7 +54,7 @@ void ProcessState(int state, void* context, void* aux)
             textList->clear(); // Clears the original scrolling text list
 
             textList->append(QString::fromLatin1("*OpenShores")); // The * at the start of the string is a marker that the game checks for, and if present, removes it and centers + boldens the line
-            textList->append(QString::fromLatin1("Welcome to OpenShores"));
+            textList->append(QString::fromLatin1("Welcome to OpenShores Classic"));
             textList->append(QString::fromLatin1("V0.1.0 (2026)"));
 
 
@@ -130,15 +130,15 @@ void ProcessState(int state, void* context, void* aux)
             logMessage("Host set to: " + hoststring);
 
             *reinterpret_cast<QString*>(
-                (g_auGlobal)+0x150 // Login host
+                (g_auGlobal) + 0x150 // Login host
             ) = host;
 
             *reinterpret_cast<QString*>(
-                (g_auGlobal)+0x160 // Mail host
+                (g_auGlobal) + 0x160 // Mail host
             ) = host;
 
             *reinterpret_cast<QString*>(
-                (g_auGlobal)+0x1E8 // Scene host
+                (g_auGlobal) + 0x1E8 // Scene host
             ) = host;
         }
         break;
