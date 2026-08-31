@@ -17,12 +17,12 @@ namespace Au {
                 reinterpret_cast<uintptr_t>(hGame) + 0x447A60
             );
 
-        /*WriteEntry =
+        WriteEntry =
             *reinterpret_cast<WriteEntryFn*>(
-                reinterpret_cast<uintptr_t>(hGame) + 0x824318
+                reinterpret_cast<uintptr_t>(hGame) + 0x447A58
             );
 
-        Log =
+        /*Log =
             *reinterpret_cast<Log_t*>(
                 reinterpret_cast<uintptr_t>(hGame) + 0x8240A0
             );*/

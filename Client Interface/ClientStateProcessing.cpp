@@ -112,18 +112,7 @@ void ProcessState(int state, void* context, void* aux)
         }
         break;
 
-    case 7: // 
-        stateLog(state);
-        {
-
-        }
-        break;
-
-    case 8: // Login UI ready, painting started
-        stateLog(state);
-        break;
-
-    case 9: // Immediate post-login click
+    case 7: // Immediate post-login click
         stateLog(state);
         {
             QString key("/Account/Host");
@@ -132,7 +121,7 @@ void ProcessState(int state, void* context, void* aux)
         }
         break;
 
-    case 10: // Login comms begin
+    case 8: // Login comms begin
         stateLog(state);
         {
             QString host = g_ipEdit->text();
@@ -141,16 +130,30 @@ void ProcessState(int state, void* context, void* aux)
             logMessage("Host set to: " + hoststring);
 
             *reinterpret_cast<QString*>(
-                (g_auGlobal) + 0x150 // Login host
-                ) = host;
+                (g_auGlobal)+0x150 // Login host
+            ) = host;
 
             *reinterpret_cast<QString*>(
-                (g_auGlobal) + 0x160 // Mail host
-                ) = host;
+                (g_auGlobal)+0x160 // Mail host
+            ) = host;
 
             *reinterpret_cast<QString*>(
-                (g_auGlobal) + 0x218 // Scene host
-                ) = host;
+                (g_auGlobal)+0x1E8 // Scene host
+            ) = host;
+        }
+        break;
+
+    case 9: // 
+        stateLog(state);
+        {
+
+        }
+        break;
+
+    case 10: //
+        stateLog(state);
+        {
+
         }
         break;
 
