@@ -16,7 +16,7 @@
 #include <QtGui/QIcon>
 
 static QLineEdit* g_ipEdit = nullptr; // Our inserted IP input field
-static bool g_state8Fired = false; // Prevents state 8 from firing repeatedly during loop
+static bool g_state6Fired = false; // Prevents state 6 from firing repeatedly during loop
 static uintptr_t g_auGlobal = 0; // Storage for AuGlobal to avoid repeat lookups
 static void* g_settings = nullptr; // AuGlobal + 0x218
 
@@ -95,32 +95,32 @@ void ProcessState(int state, void* context, void* aux)
         }
         break;
 
-    case 6: // 
-        stateLog(state);
+    case 6: // Background image loading and render loop
         {
+            if (!g_state6Fired) { // Prevents state from repeatedly firing
+                QImage* image = static_cast<QImage*>(context); // Converts the passed context to a qimage
+                image->load(QString::fromLatin1("assets/Background.png"));
+                QWidget* mainWindow = QApplication::activeWindow();
 
+                if (mainWindow) {
+                    mainWindow->setWindowTitle("OpenShores");
+                    mainWindow->setWindowIcon(QIcon("assets/OS_Icon.png"));
+                }
+                g_state6Fired = true;
+                stateLog(state);
+            }
         }
         break;
 
-    case 7: // Background image loading and rendering
+    case 7: // 
         stateLog(state);
         {
-            QImage* image = static_cast<QImage*>(context); // Converts the passed context to a qimage
-            image->load(QString::fromLatin1("assets/Background.png"));
-            QWidget* mainWindow = QApplication::activeWindow();
 
-            if (mainWindow)
-                mainWindow->setWindowTitle("OpenShores");
-                mainWindow->setWindowIcon(QIcon("assets/OS_Icon.png"));
         }
         break;
 
     case 8: // Login UI ready, painting started
-        if (!g_state8Fired) // Prevents state from repeatedly firing
-        {
-            g_state8Fired = true;
-            stateLog(state);
-        }
+        stateLog(state);
         break;
 
     case 9: // Immediate post-login click
