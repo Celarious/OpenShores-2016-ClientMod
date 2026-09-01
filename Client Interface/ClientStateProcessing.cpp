@@ -96,19 +96,17 @@ void ProcessState(int state, void* context, void* aux)
         break;
 
     case 6: // Background image loading and render loop
-        {
-            if (!g_state6Fired) { // Prevents state from repeatedly firing
-                QImage* image = static_cast<QImage*>(context); // Converts the passed context to a qimage
-                image->load(QString::fromLatin1("assets/Background.png"));
-                QWidget* mainWindow = QApplication::activeWindow();
+        if (!g_state6Fired) { // Prevents state from repeatedly firing
+            QImage* image = static_cast<QImage*>(context); // Converts the passed context to a qimage
+            image->load(QString::fromLatin1("assets/Background.png"));
+            QWidget* mainWindow = QApplication::activeWindow();
 
-                if (mainWindow) {
-                    mainWindow->setWindowTitle("OpenShores Classic");
-                    mainWindow->setWindowIcon(QIcon("assets/OS_Icon.png"));
-                }
-                g_state6Fired = true;
-                stateLog(state);
+            if (mainWindow) {
+                mainWindow->setWindowTitle("OpenShores Classic");
+                mainWindow->setWindowIcon(QIcon("assets/OS_Icon.png"));
             }
+            g_state6Fired = true;
+            stateLog(state);
         }
         break;
 
